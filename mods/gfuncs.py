@@ -11,26 +11,24 @@ def get_index() -> int:
     return int(inp)
 
 
-def get_word(g: Game, p: Player, tot_moves: int) -> str:
+def get_word(g: Game, p: Player, op: Player, tot_moves: int) -> str:
+   while True:
+        ws: list[str] = []
+        if tot_moves <= 1:
+            available_words: list[str]= [word for word in g.get_words() if word[1] not in op.get_letters()]
+            for word in available_words:
+                ws.append(word)
+                print(word)
+        else:
+            available_words: list[str] = [word for word in g.get_words() if word[1] in p.get_letters()]
+            for word in available_words:
+                ws.append(word)
+                print(word)
 
-    # making it so that when a player chooses a word, they claim words with that letter in it
-    def is_player_letter(p: Player, w: str) -> bool:
-        if w in p.get_letters():
-            return True
-        return False
-
-
-        """ Currently need to fix up this code to work with the main loop 
-        we need to print all of the words if it tot_moves !> 1.
-        else we will have to print all of the players available words.
-        then have them choose one.
-        """
-        # get input
         w: str = input("Choose a word: ").strip()
-        if w in g.get_words() and is_player_letter(p=p, w=w):
+        if w in ws:
             return w
-        print("Invalid word, try again")
-
+        print("Invalid word try again")
 
 # # place the word on the board
 def place_word(index: int, g: Game, w: str) -> None:

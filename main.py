@@ -13,7 +13,6 @@ from mods.bot import get_best_move
 # just to keep the output tidy
 def clear_screen() -> None:
     if os.name == "nt": #windows
-        # not sure why vscode says that this code is un reachable ...
         os.system("cls")
         return 0
     os.system("clear") # linux and mac
@@ -29,8 +28,9 @@ def main() -> None:
         for player in game.players:
             print("\n" + str(game.board))
 
+            other_player = [p for p in game.players if p != player][0]
             if isinstance(player, User):
-                word: str = get_word(p=player, g=game, tot_moves=total_moves)
+                word: str = get_word(p=player, g=game, op= other_player, tot_moves=total_moves)
                 if not total_moves or total_moves == 1:
                     player.claim_letter(word[1])
                 index: int = get_index()

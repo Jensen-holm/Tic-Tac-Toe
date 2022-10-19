@@ -39,11 +39,16 @@ class Player:
     def get_letters(self) -> list[str]:
         return self.letters
 
+    def set_letter(self, letter) -> None:
+        self.letters.append(letter)
 
+
+@dataclass
 class CPU(Player):
     def __init__(self):
         super().__init__(name="CPU")
 
+@dataclass
 class User(Player):
     def __init__(self):
         super().__init__(name="User")

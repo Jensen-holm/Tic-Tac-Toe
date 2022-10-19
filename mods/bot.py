@@ -6,7 +6,7 @@ of tic-tac-toe
 """
 
 import random
-from mods.obs import Board, User, Player
+from mods.obs import Board, User, Player, CPU
 from mods.gfuncs import someone_won, is_available, check_draw
 
 
@@ -19,7 +19,7 @@ def get_best_move(b: Board, words: dict[str, str], player_that_played_last: Play
         if not is_available(b = b_copy, key = spot):
             # want to play every possible available move
             b_copy[spot]: str = random.choice(list(words.keys())).center(7, " ") # for now, it is random
-            score: int = minimax(b_copy, False, player_that_played_last, tot_moves, words)
+            score: int = minimax(board=b_copy, is_maximizing=False, last_turn=player_that_played_last, tot_moves=tot_moves, words=words)
 
             if score > best_score:
                 best_score: int = score
@@ -28,40 +28,30 @@ def get_best_move(b: Board, words: dict[str, str], player_that_played_last: Play
     return best_move, best_score
 
 
-# would need to specify a depth argument if it were more complex than tic-tac-toe
-def minimax(b: Board.board, is_maximizing: bool, player_that_played_last: Player, tot_moves: int, words: dict[str, str]):
-    # check if the move the cpu tried ended the game or not
-    p, won = someone_won(b, player_that_played_last)
+def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player, words: dict[str, str]):
+    p, won = someone_won(b=board, player_that_just_played=last_turn)
+    if won and isinstance(p, CPU):
+        return 1
     if won and isinstance(p, User):
-        return -10
-    if won:
-        return 10
-    if check_draw(b, tot_moves, player_that_played_last):
+        return -1
+    if check_draw(b = board, tot_moves = tot_moves, player_that_played_last = last_turn):
         return 0
-    # if the move tried didn't result in ending the game
-        # if the bot is not maximizing
-    if not is_maximizing:
-        best_score: int = 10
-        word: str = ""
-        for spot in b:
-            if not is_available(b=b, key=spot):
-                word: str = random.choice(list(words.keys()))
-                b[spot]: str = word
-                score: int = minimax(b, True, player_that_played_last, tot_moves, words)
-
+    if is_maximizing:
+        best_score: int = -800
+        for key in board:
+            if is_available(board, key):
+                board[key]: str = random.choice(list(words.keys()))
+                score: int =  minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn, words=words)
+                # maybe reset the board key to empty? but we are doing this on a copy in the first place so it's probably fine
                 if score > best_score:
                     best_score: int = score
-
-    # if IT IS maximizing
-    best_score: int = -10
-    for spot in b:
-        if not is_available(b=b, key=spot):
-            # want to play every possible available move
-            word: str = random.choice(list(words.keys()))
-            b[spot]: str = word # for now, it is random
-            score: int = minimax(b, False, player_that_played_last, tot_moves, words)
-
-            if score > best_score:
+        return best_score
+    # if not is_maximizing ...
+    best_score: int = 800
+    for key in board:
+        if is_available(board, key):
+            board[key]: str = random.choice(list(words.keys()))
+            score: int = minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn, words=words)
+            if score < best_score:
                 best_score: int = score
-
-    return best_score, word
+    return best_score

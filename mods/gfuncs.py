@@ -34,7 +34,7 @@ def place_word(index: int, g: Game, w: str) -> None:
 # function to determine if the game is over or not
 # checks one player at a time after their turn
 def is_available(b: Board.board, key: int):
-    if not b[key].strip(): # meaning empty string
+    if b[key].strip().isnumeric(): # meaning empty space
         return True
     return False
 
@@ -66,4 +66,3 @@ def someone_won(b: Board.board, player_that_just_played: Player) -> bool:
     if any(win_scenarios):
         return player_that_just_played, True
     return player_that_just_played, False
-

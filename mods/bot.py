@@ -18,7 +18,7 @@ def get_best_move(b: Board, words: dict[str, str], player_that_played_last: Play
     for spot in b_copy.keys():
         if not is_available(b = b_copy, key = spot):
             # want to play every possible available move
-            b_copy[spot]: str = random.choice(words) # for now, it is random
+            b_copy[spot]: str = random.choice(list(words.keys())).center(7, " ") # for now, it is random
             score: int = minimax(b_copy, False, player_that_played_last, tot_moves, words)
 
             if score > best_score:
@@ -45,7 +45,7 @@ def minimax(b: Board.board, is_maximizing: bool, player_that_played_last: Player
         word: str = ""
         for spot in b:
             if not is_available(b=b, key=spot):
-                word: str = random.choice(words)
+                word: str = random.choice(list(words.keys()))
                 b[spot]: str = word
                 score: int = minimax(b, True, player_that_played_last, tot_moves, words)
 
@@ -57,7 +57,7 @@ def minimax(b: Board.board, is_maximizing: bool, player_that_played_last: Player
     for spot in b:
         if not is_available(b=b, key=spot):
             # want to play every possible available move
-            word: str = random.choice(words)
+            word: str = random.choice(list(words.keys()))
             b[spot]: str = word # for now, it is random
             score: int = minimax(b, False, player_that_played_last, tot_moves, words)
 

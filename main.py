@@ -32,6 +32,7 @@ def main() -> None:
 
             total_moves += 1
             p, won = someone_won(b=game.get_board(), player_that_just_played=player)
+            print(won)
             if won:
                 winner += p.name
                 game_over: bool = True

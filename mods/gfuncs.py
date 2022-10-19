@@ -42,7 +42,7 @@ def is_available(b: Board.board, key: int):
 def did_win(b, i1, i2, i3):
     if any([is_available(b, i1), is_available(b, i2), is_available(b, i3)]):
         return False
-    if b[i1][1] == b[i2][1] == b[i3][1]:
+    if b[i1].strip()[1] == b[i2].strip()[1] == b[i3].strip()[1]:
         return True
     return False
 

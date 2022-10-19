@@ -10,9 +10,10 @@ from mods.obs import Game, User
 from mods.gfuncs import get_word, get_index, place_word, someone_won
 from mods.bot import get_best_move
 
-
+# just to keep the output tidy
 def clear_screen() -> None:
     if os.name == "nt": #windows
+        # not sure why vscode says that this code is un reachable ...
         os.system("cls")
         return 0
     os.system("clear") # linux and mac
@@ -29,7 +30,9 @@ def main() -> None:
             print("\n" + str(game.board))
 
             if isinstance(player, User):
-                word: str = get_word(g=game)
+                word: str = get_word(p=player, g=game, tot_moves=total_moves)
+                if not total_moves or total_moves == 1:
+                    player.claim_letter(word[1])
                 index: int = get_index()
                 place_word(index=index, w=word, g=game)
             else:  # else if it is the CPU ...

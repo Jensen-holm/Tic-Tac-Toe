@@ -31,15 +31,22 @@ class Player:
     draws: int = 0
     losses: int = 0
     streak: int = 0
+    letters = []
 
-@dataclass
+    def claim_letter(self, letter: str) -> None:
+        self.letters.append(letter)
+    
+    def get_letters(self) -> list[str]:
+        return self.letters
+
+
 class CPU(Player):
-    name: str = "CPU"
+    def __init__(self):
+        super().__init__(name="CPU")
 
-@dataclass
 class User(Player):
-    # maybe make this custom and save result history in a text file
-    name: str = "User"
+    def __init__(self):
+        super().__init__(name="User")
 
 
 class Game:

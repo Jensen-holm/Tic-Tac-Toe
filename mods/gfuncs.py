@@ -11,14 +11,23 @@ def get_index() -> int:
     return int(inp)
 
 
-def get_word(g: Game) -> str:
-    while True: # until the function returns, user enters valid input
-        # print options
-        for word in g.get_words():
-            print(word)
+def get_word(g: Game, p: Player, tot_moves: int) -> str:
+
+    # making it so that when a player chooses a word, they claim words with that letter in it
+    def is_player_letter(p: Player, w: str) -> bool:
+        if w in p.get_letters():
+            return True
+        return False
+
+
+        """ Currently need to fix up this code to work with the main loop 
+        we need to print all of the words if it tot_moves !> 1.
+        else we will have to print all of the players available words.
+        then have them choose one.
+        """
         # get input
         w: str = input("Choose a word: ").strip()
-        if w in g.get_words():
+        if w in g.get_words() and is_player_letter(p=p, w=w):
             return w
         print("Invalid word, try again")
 
@@ -29,7 +38,6 @@ def place_word(index: int, g: Game, w: str) -> None:
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")
     except KeyError as e: # meaning not in this dict, which would not be good b/c get_word function checks for this problem
         raise e
-
 
 # function to determine if the game is over or not
 # checks one player at a time after their turn

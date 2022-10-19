@@ -5,11 +5,18 @@ Purpose: CIS162 Project 2
 Date: 10/13/22
 """
 import random
-
+import os
 from mods.obs import Game, User
 from mods.gfuncs import get_word, get_index, place_word, someone_won
 from mods.bot import get_best_move
 
+
+def clear_screen() -> None:
+    if os.name == "nt": #windows
+        os.system("cls")
+        return 0
+    os.system("clear") # linux and mac
+    return 0
 
 # right now this works, but is infinite and game doesn't end
 def main() -> None:
@@ -30,11 +37,11 @@ def main() -> None:
                 word: str = random.choice(list(game.get_words().keys()))
                 place_word(index=best_move, g=game, w=word)
 
+            clear_screen()
             total_moves += 1
             p, won = someone_won(b=game.get_board(), player_that_just_played=player)
-            print(won)
             if won:
-                winner += p.name
+                print(f"{p.name} Wins!")
                 game_over: bool = True
 
     # print stats like wins and stuff

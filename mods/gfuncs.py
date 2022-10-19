@@ -57,7 +57,7 @@ def check_draw(b: Board.board, tot_moves: int, player_that_played_last) -> bool:
 # function to determine if the game is over or not
 # checks one player at a time after their turn
 # we want ot be able to tell who won
-def someone_won(b: Board.board, player_that_just_played: Player) -> bool:
+def someone_won(b: Board.board, player_that_just_played: Player) -> (Player, bool):
     # need to double-check the indexes maybe
     win_scenarios: set[bool] = {
         # check top row, check middle row, check bottom row, check left col

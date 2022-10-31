@@ -1,9 +1,9 @@
-
 from mods.obs import Board, Game, Player
+
 
 def get_index() -> int:
     # get the index
-    global inp # setting this as a global variable is not ideal, but had to be done to avoid weird recursion problems
+    global inp  # setting this as a global variable is not ideal, but had to be done to avoid weird recursion problems
     inp = input("\nEnter board index (1-9): ").strip()
     if not inp.isnumeric():
         print(f"\nInvalid input: '{inp}' is not a valid board index. Please try again.")
@@ -12,10 +12,10 @@ def get_index() -> int:
 
 
 def get_word(g: Game, p: Player, op: Player, tot_moves: int) -> str:
-   while True:
+    while True:
         ws: list[str] = []
         if tot_moves <= 1:
-            available_words: list[str]= [word for word in g.get_words() if word[1] not in op.get_letters()]
+            available_words: list[str] = [word for word in g.get_words() if word[1] not in op.get_letters()]
             for word in available_words:
                 ws.append(word)
                 print(word)
@@ -30,17 +30,19 @@ def get_word(g: Game, p: Player, op: Player, tot_moves: int) -> str:
             return w
         print("Invalid word try again")
 
+
 # # place the word on the board
 def place_word(index: int, g: Game, w: str) -> None:
-    try: # pop will remove it from the game words dict and place it on the board
+    try:  # pop will remove it from the game words dict and place it on the board
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")
-    except KeyError as e: # meaning not in this dict, which would not be good b/c get_word function checks for this problem
+    except KeyError as e:  # meaning not in this dict, which would not be good b/c get_word function checks for this problem
         raise e
+
 
 # function to determine if the game is over or not
 # checks one player at a time after their turn
 def is_available(b: Board.board, key: int):
-    if b[key].strip().isnumeric(): # meaning empty space
+    if b[key].strip().isnumeric():  # meaning empty space
         return True
     return False
 
@@ -67,7 +69,8 @@ def someone_won(b: Board.board, player_that_just_played: Player) -> (Player, boo
     # need to double-check the indexes maybe
     win_scenarios: set[bool] = {
         # check top row, check middle row, check bottom row, check left col
-        did_win(b, 1, 2, 3), did_win(b, 4, 5, 6), did_win(b, 7, 8, 9), did_win(b, 1, 4, 7), did_win(b, 2, 5, 8), did_win(b, 3, 6, 9), did_win(b, 1, 5, 9)
+        did_win(b, 1, 2, 3), did_win(b, 4, 5, 6), did_win(b, 7, 8, 9), did_win(b, 1, 4, 7), did_win(b, 2, 5, 8),
+        did_win(b, 3, 6, 9), did_win(b, 1, 5, 9)
     }
     if any(win_scenarios):
         return player_that_just_played, True

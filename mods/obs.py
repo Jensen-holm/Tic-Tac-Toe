@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 from mods.words import generate_words
 
@@ -35,7 +34,7 @@ class Player:
 
     def claim_letter(self, letter: str) -> None:
         self.letters.append(letter)
-    
+
     def get_letters(self) -> list[str]:
         return self.letters
 
@@ -47,6 +46,7 @@ class Player:
 class CPU(Player):
     def __init__(self):
         super().__init__(name="CPU")
+
 
 @dataclass
 class User(Player):

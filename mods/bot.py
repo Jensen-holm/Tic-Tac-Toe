@@ -1,5 +1,3 @@
-
-
 """
 Creating a minimax algorithm that can play this version
 of tic-tac-toe
@@ -16,10 +14,11 @@ def get_best_move(b: Board, words: dict[str, str], player_that_played_last: Play
     b_copy: dict[int, str] = b.board.copy()
 
     for spot in b_copy.keys():
-        if is_available(b = b_copy, key = spot):
+        if is_available(b=b_copy, key=spot):
             # want to play every possible available move
-            b_copy[spot]: str = random.choice(list(words.keys())).center(7, " ") # for now, it is random
-            score: int = minimax(board=b_copy, is_maximizing=False, last_turn=player_that_played_last, tot_moves=tot_moves, words=words)
+            b_copy[spot]: str = random.choice(list(words.keys())).center(7, " ")  # for now, it is random
+            score: int = minimax(board=b_copy, is_maximizing=False, last_turn=player_that_played_last,
+                                 tot_moves=tot_moves, words=words)
 
             if score > best_score:
                 best_score: int = score
@@ -33,7 +32,7 @@ def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player
         return 1
     if won and isinstance(p, User):
         return -1
-    if check_draw(b = board, tot_moves = tot_moves, player_that_played_last = last_turn):
+    if check_draw(b=board, tot_moves=tot_moves, player_that_played_last=last_turn):
         return 0
 
     def find_bot_available_words(game: Game, bot: Player):
@@ -49,7 +48,8 @@ def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player
         for key in board:
             if is_available(board, key):
                 board[key]: str = random.choice(list(words.keys()))
-                score: int =  minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn, words=words)
+                score: int = minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn,
+                                     words=words)
                 # maybe reset the board key to empty? but we are doing this on a copy in the first place so it's probably fine
                 if score > best_score:
                     best_score: int = score
@@ -59,7 +59,8 @@ def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player
     for key in board:
         if is_available(board, key):
             board[key]: str = random.choice(list(words.keys()))
-            score: int = minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn, words=words)
+            score: int = minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn,
+                                 words=words)
             if score < best_score:
                 best_score: int = score
     return best_score

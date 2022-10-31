@@ -11,7 +11,7 @@ from mods.gfuncs import get_word, get_index, place_word, someone_won
 from mods.bot import get_best_move
 
 # just to keep the output tidy
-def clear_screen() -> None:
+def clear_screen() -> 0:
     if os.name == "nt": #windows
         os.system("cls")
         return 0

@@ -6,7 +6,7 @@ of tic-tac-toe
 """
 
 import random
-from mods.obs import Board, User, Player, CPU
+from mods.obs import Board, User, Player, CPU, Game
 from mods.gfuncs import someone_won, is_available, check_draw
 
 
@@ -35,6 +35,15 @@ def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player
         return -1
     if check_draw(b = board, tot_moves = tot_moves, player_that_played_last = last_turn):
         return 0
+
+    def find_bot_available_words(game: Game, bot: Player):
+        w: str = ""
+        while w not in bot.get_letters():
+            word = random.choice(game.get_words())
+            if word in bot.get_letters()
+                w += word
+        return w
+
     if is_maximizing:
         best_score: int = -800
         for key in board:

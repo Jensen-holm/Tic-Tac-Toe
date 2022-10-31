@@ -2,13 +2,12 @@ from mods.obs import Board, Game, Player
 
 
 def get_index() -> int:
-    # get the index
-    global inp  # setting this as a global variable is not ideal, but had to be done to avoid weird recursion problems
-    inp = input("\nEnter board index (1-9): ").strip()
-    if not inp.isnumeric():
+    while True:
+        # get the index
+        inp = input("\nEnter board index (1-9): ").strip()
+        if inp.isnumeric():
+            return int(inp)
         print(f"\nInvalid input: '{inp}' is not a valid board index. Please try again.")
-        get_index()
-    return int(inp)
 
 
 def get_word(g: Game, p: Player, op: Player, tot_moves: int) -> str:

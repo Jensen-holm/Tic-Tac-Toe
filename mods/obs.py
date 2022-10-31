@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from mods.words import generate_words
+from mods.gfuncs import check_draw, someone_won
 
 
 class Board:
@@ -61,6 +62,15 @@ class Game:
     board: Board = Board()
     players: list[Player] = [User(), CPU()]
     words: dict[str] = generate_words()
+    tot_moves: int = 0
+
+    def player_turn(self) -> Player:
+        return self.players[self.tot_moves % 2]
+
+    def __bool__(self) -> bool:
+        p, won = someone_won(self.board.board, self.player_turn())
+        draw = check_draw(self.board.board, self.tot_moves, self.player_turn())
+        return False if draw or not won else True
 
     def get_players(self) -> list[Player]:
         return self.players
@@ -70,3 +80,6 @@ class Game:
 
     def get_words(self) -> dict[str, str]:
         return self.words
+
+    def increment_moves(self, n: int):
+        self.tot_moves += n

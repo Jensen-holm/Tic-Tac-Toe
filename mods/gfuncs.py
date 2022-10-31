@@ -54,6 +54,7 @@ def did_win(b, i1, i2, i3):
     return False
 
 
+# not sure if this is doing what we want it too
 def check_draw(b: Board.board, tot_moves: int, player_that_played_last) -> bool:
     p, won = someone_won(b, player_that_played_last)
     if tot_moves >= 6 and not won:

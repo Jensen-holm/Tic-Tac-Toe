@@ -40,6 +40,10 @@ class Player:
     def set_letter(self, letter) -> None:
         self.letters.append(letter)
 
+    # only want to check this after the first turn
+    def get_words(self, game_obj) -> list[str]:
+        return [word for word in game_obj.get_words() if word[1] in self.get_letters()]
+
 
 @dataclass
 class CPU(Player):

@@ -34,29 +34,21 @@ def get_best_move(b: Board, words: list[str], player_that_played_last: Player, t
 
 def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player, words: list[str]):
     p, won = someone_won(b=board, player_that_just_played=last_turn)
-    if won and isinstance(p, CPU):
+    if won and p.name == "CPU":
         return 1
-    if won and isinstance(p, User):
+    if won and p.name == "User":
         return -1
     if check_draw(b=board, tot_moves=tot_moves, player_that_played_last=last_turn):
         return 0
-
-    def find_bot_available_words(game: Game, bot: Player):
-        w: str = ""
-        while w not in bot.get_letters():
-            word = random.choice(game.get_words())
-            if word in bot.get_letters():
-                w += word
-        return w
 
     if is_maximizing:
         best_score: int = -800
         for key in board:
             if is_available(board, key):
-                board[key]: str = random.choice(words)
+                board[key]: str = random.choice()
                 score: int = minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn,
                                      words=words)
-                # maybe reset the board key to empty? but we are doing this on a copy in the first place so it's probably fine
+                # maybe reset the board key to empty? but we are doing this on a copy in the first place, so it's probably fine
                 if score > best_score:
                     best_score: int = score
         return best_score

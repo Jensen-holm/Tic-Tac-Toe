@@ -6,10 +6,9 @@ Date: 10/13/22
 """
 import random
 import os
-from mods.obs import Game, User, CPU
-from mods.gfuncs import get_word, get_index, place_word, someone_won
+from mods.obs import Game
+from mods.gfuncs import get_word, get_index, place_word, someone_won, check_draw
 from mods.bot import get_best_move
-from pprint import pprint
 
 
 #
@@ -22,7 +21,6 @@ from pprint import pprint
 #     return
 #
 
-# right now this works, but is infinite and game doesn't end
 def main() -> None:
     game: Game = Game()
     total_moves: int = 0
@@ -43,26 +41,28 @@ def main() -> None:
                 index: int = get_index()
                 place_word(index=index, w=word, g=game)
 
-            elif isinstance(player, CPU):
+            else:
                 print("cpu turn")
-                word: str = random.choice(list(game.get_words().keys()))
-
-                if not total_moves:
-                    player.claim_letter(word[1])
-
+                print(player.get_words(game_obj=game))
                 # this is an issue, the words that we are letting the cpu select from
                 best_move, best_score = get_best_move(b=game.board,
-                                                      words=[w for w in game.get_words() if
-                                                             w[1] in player.get_letters()],
+                                                      words=player.get_words(game_obj=game),
                                                       player_that_played_last=player,
                                                       tot_moves=total_moves)
-                word: str = random.choice(list(game.get_words().keys()))
+                word: str = random.choice(player.get_words(game_obj=game))
                 place_word(index=best_move, g=game, w=word)
 
             # clear_screen()
             total_moves += 1
             # for some reason it has only been checking the cpu
+
+            # check for draw
+            if check_draw(b=game.board.board, tot_moves=total_moves, player_that_played_last=player):
+                print(f"It's a draw!!")
+                game_over: bool = True
+
             p, won = someone_won(b=game.get_board(), player_that_just_played=player)
+
 
             if won:
                 print(f"{p.name} Wins!")

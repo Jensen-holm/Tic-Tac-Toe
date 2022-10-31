@@ -22,7 +22,6 @@ class Board:
         return r
 
 
-# Player objects
 @dataclass
 class Player:
     name: str = ""

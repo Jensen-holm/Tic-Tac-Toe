@@ -67,6 +67,9 @@ class Game:
     def player_turn(self) -> Player:
         return self.players[self.tot_moves % 2]
 
+    def other_player(self):
+        return self.players[(self.tot_moves % 2) - 1]
+
     def __bool__(self) -> bool:
         p, won = someone_won(self.board.board, self.player_turn())
         draw = check_draw(self.board.board, self.tot_moves, self.player_turn())
@@ -81,5 +84,5 @@ class Game:
     def get_words(self) -> dict[str, str]:
         return self.words
 
-    def increment_moves(self, n: int):
+    def increment_moves(self, n: int = 1):
         self.tot_moves += n

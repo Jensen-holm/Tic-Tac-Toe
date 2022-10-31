@@ -7,25 +7,24 @@ def get_index() -> int:
         print(f"\nInvalid input: '{inp}' is not a valid board index. Please try again.")
 
 
+def available_words(game) -> list[str]:
+    if not game.tot_moves:
+        return game.get_words()
+    return [word for word in game.get_words() if word[1] in game.player_turn().get_letters()]
+
+
 def get_word(g, p, op, tot_moves: int) -> str:
+    a_words: list[str] = available_words(game=g)
+    for word in a_words:
+        print(word)
     while True:
-        ws: list[str] = []
-        if tot_moves <= 1:
-            available_words: list[str] = [word for word in g.get_words() if word[1] not in op.get_letters()]
-            for word in available_words:
-                ws.append(word)
-                print(word)
-        else:
-            available_words: list[str] = [word for word in g.get_words() if word[1] in p.get_letters()]
-            for word in available_words:
-                ws.append(word)
-                print(word)
+        choice = input("\nChoose a word: ").strip()
+        if choice in a_words:
+            return choice
+        print("\nInvalid word choice. Try again.")
 
-        w: str = input("Choose a word: ").strip()
-        if w in ws:
-            return w
-        print("Invalid word try again")
 
+# print the words available
 
 # # place the word on the board
 def place_word(index: int, g, w: str) -> None:

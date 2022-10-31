@@ -7,6 +7,12 @@ import random
 from mods.obs import Board, User, Player, CPU, Game
 from mods.gfuncs import someone_won, is_available, check_draw
 
+"""
+Right now the problem I believe is we are passing the list of whole words into the minimax
+functions, and not considering that the bot can only use certain words.
+also the bot is happy right now if I win or it wins, need to make it so that it wants to win
+"""
+
 
 def get_best_move(b: Board, words: dict[str, str], player_that_played_last: Player, tot_moves: int) -> (int, int):
     best_score: int = -10
@@ -39,7 +45,7 @@ def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player
         w: str = ""
         while w not in bot.get_letters():
             word = random.choice(game.get_words())
-            if word in bot.get_letters()
+            if word in bot.get_letters():
                 w += word
         return w
 

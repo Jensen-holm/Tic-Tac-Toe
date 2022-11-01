@@ -13,7 +13,7 @@ def available_words(game) -> list[str]:
     return [word for word in game.get_words() if word[1] in game.player_turn().get_letters()]
 
 
-def get_word(g, p, op, tot_moves: int) -> str:
+def get_word(g) -> str:
     a_words: list[str] = available_words(game=g)
     for word in a_words:
         print(word)

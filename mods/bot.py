@@ -8,51 +8,56 @@ from mods.obs import Board, User, Player, CPU, Game
 from mods.gfuncs import someone_won, is_available, check_draw
 
 
-def get_best_move(b: Board.board, words: list[str], player_that_played_last: Player, tot_moves: int) -> (int, int):
-    best_score: int = -10
-    best_move: int = 0
-    b_copy: dict[int, str] = b.copy()
+def cpu_move(g: Game, w: str, players: list[Player]) -> str:
+    best_score: int = -1000
+    best_move: str = ""
+    b_copy: dict[str, str] = g.get_board().copy()
 
-    for spot in b_copy.keys():
-        if is_available(b=b_copy, key=spot):
-            # want to play every possible available move
-            b_copy[spot]: str = random.choice(words).center(7, " ")  # for now, it is random
-            score: int = minimax(board=b_copy, is_maximizing=False, last_turn=player_that_played_last,
-                                 tot_moves=tot_moves, words=words)
+    for spot in b_copy:
+        if is_available(b_copy, spot):
+            orig = b_copy[spot]
+            b_copy[spot] = w
+            score: int = minimax(game=g, b=b_copy, w=w, is_maximizing=False, players=players)
+            b_copy[spot] = orig  # not sure if we actually have to get rid of it since we are using a copy
 
             if score > best_score:
-                best_score: int = score
-                best_move: int = spot
-    return best_move, best_score
+                best_score = score
+                best_move = spot
+    return best_move
 
 
-def minimax(board: Board, is_maximizing: bool, tot_moves: int, last_turn: Player, words: list[str]):
-    p, won = someone_won(b=board, p=last_turn)
-    if won and p.name == "CPU":
-        return 1
-    if won and p.name == "User":
-        return -1
-    if check_draw(b=board, tot_moves=tot_moves, player_that_played_last=last_turn):
+def minimax(game: Game, b: Board.board, w: str, is_maximizing: bool, players: list[Player], depth=0):
+    user, user_won = someone_won(b, players[0])
+    cpu, cpu_won = someone_won(b, players[1])
+
+    if cpu_won:
+        return 100
+    if user_won:
+        return -100
+    if check_draw(b, game.tot_moves, players[0]):  # worried about passing this same index each time
         return 0
 
     if is_maximizing:
-        best_score: int = -800
-        for key in board:
-            if is_available(board, key):
-                board[key]: str = random.choice()
-                score: int = minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn,
-                                     words=words)
-                # maybe reset the board key to empty? but we are doing this on a copy in the first place, so it's probably fine
+        best_score: int = -1000
+        for spot in b:
+            if is_available(b, spot):
+                orig = b[spot]
+                b[spot] = w
+                score: int = minimax(game, b, w, is_maximizing, players)
+                b[spot] = orig
+
                 if score > best_score:
-                    best_score: int = score
+                    best_score = score
         return best_score
-    # if not is_maximizing ...
+
     best_score: int = 800
-    for key in board:
-        if is_available(board, key):
-            board[key]: str = random.choice(words)
-            score: int = minimax(board=board, is_maximizing=is_maximizing, tot_moves=tot_moves, last_turn=last_turn,
-                                 words=words)
+    for spot in b:
+        if is_available(b, spot):
+            orig = b[spot]
+            b[spot] = w
+            score: int = minimax(game, b, w, True, players, depth=depth + 1)
+            b[spot] = orig
+
             if score < best_score:
-                best_score: int = score
+                best_score = score
     return best_score

@@ -1,6 +1,6 @@
 """
 Creating a minimax algorithm that can play this version
-of tic-tac-toe
+of tic-tac-toe was actually really hard.
 """
 
 import random

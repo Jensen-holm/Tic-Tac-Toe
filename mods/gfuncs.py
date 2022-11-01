@@ -57,6 +57,8 @@ def did_win(b, p_letters, i1, i2, i3):
     return False
 
 
+
+""" no matter the situation, a win scenario seems to be true. """
 def someone_won(b, p) -> bool:
     p_letters: list[str] = p.get_letters()
     win_scenarios: set[bool] = {
@@ -66,5 +68,6 @@ def someone_won(b, p) -> bool:
         did_win(b, p_letters, 3, 6, 9), did_win(b, p_letters, 1, 5, 9), did_win(b, p_letters, 3, 5, 7)
     }
     if any(win_scenarios):
+        print("a win scenario is true")
         return True
     return False

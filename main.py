@@ -43,7 +43,7 @@ def main() -> None:
             w: str = random.choice(available_words)
             game.player_turn().claim_letter(w[1])
 
-            # minimax to choose the index          # not sure if this is the correct input for 'player that played last'
+            # minimax to choose the index
             best_move = cpu_move(g=game, words=available_words, players=game.get_players())
             place_word(index=best_move, g=game, w=w)
 
@@ -53,8 +53,9 @@ def main() -> None:
 
     if check_draw(b=game.get_board(), tot_moves=game.tot_moves, player_that_played_last=game.get_players()[0]):
         print(f"Its a draw. Lame.")
-    _, cpu_won = someone_won(b=game.get_board(), p=game.get_players()[1])
-    _, user_won = someone_won(b=game.get_board(), p=game.get_players()[0])
+    cpu_won = someone_won(b=game.get_board(), p=game.get_players()[1])
+    user_won = someone_won(b=game.get_board(), p=game.get_players()[0])
+
     if user_won:
         print(f"User Won!!!")
     if cpu_won:

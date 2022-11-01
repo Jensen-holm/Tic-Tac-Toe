@@ -72,7 +72,7 @@ class Game:
 
     # checks if the game is over
     def __bool__(self) -> bool:
-        p, won = someone_won(self.board.board, self.player_turn())
+        won = someone_won(self.board.board, self.player_turn())
         draw = check_draw(self.board.board, self.tot_moves, self.player_turn())
         return True if draw or won else False
 

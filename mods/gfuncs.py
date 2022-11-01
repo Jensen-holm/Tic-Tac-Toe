@@ -42,27 +42,29 @@ def is_available(b, key: int):
     return False
 
 
-def did_win(b, i1, i2, i3):
-    if any([is_available(b, i1), is_available(b, i2), is_available(b, i3)]):
-        return False
-    if b[i1].strip()[1] == b[i2].strip()[1] == b[i3].strip()[1]:
-        return True
-    return False
-
-
 def check_draw(b, tot_moves, player_that_played_last) -> bool:
-    p, won = someone_won(b, player_that_played_last)
+    won = someone_won(b, player_that_played_last)
     if tot_moves >= 6 and not won:
         return True
     return False
 
 
-def someone_won(b, p):
+def did_win(b, p_letters, i1, i2, i3):
+    if any([is_available(b, i1), is_available(b, i2), is_available(b, i3)]):
+        return False
+    if b[i1].strip()[1] in p_letters and b[i2].strip()[1] in p_letters and b[i3].strip()[1] in p_letters:
+        return True
+    return False
+
+
+def someone_won(b, p) -> bool:
+    p_letters: list[str] = p.get_letters()
     win_scenarios: set[bool] = {
         # check top row, check middle row, check bottom row, check left col
-        did_win(b, 1, 2, 3), did_win(b, 4, 5, 6), did_win(b, 7, 8, 9), did_win(b, 1, 4, 7), did_win(b, 2, 5, 8),
-        did_win(b, 3, 6, 9), did_win(b, 1, 5, 9), did_win(b, 3, 5, 7)
+        did_win(b, p_letters, 1, 2, 3), did_win(b, p_letters, 4, 5, 6), did_win(b, p_letters, 7, 8, 9),
+        did_win(b, p_letters, 1, 4, 7), did_win(b, p_letters, 2, 5, 8),
+        did_win(b, p_letters, 3, 6, 9), did_win(b, p_letters, 1, 5, 9), did_win(b, p_letters, 3, 5, 7)
     }
     if any(win_scenarios):
-        return p, True
-    return p, False
+        return True
+    return False

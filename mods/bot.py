@@ -28,10 +28,9 @@ def cpu_move(g: Game, words: list[str], players: list[Player]) -> str:
 
 
 def minimax(game: Game, b: Board.board, w: str, is_maximizing: bool, players: list[Player], depth=0):
-    _, user_won = someone_won(b, players[0])
-    _, cpu_won = someone_won(b, players[1])
+    user_won = someone_won(b, players[0])
+    cpu_won = someone_won(b, players[1])
 
-    print(cpu_won, user_won)
     if cpu_won:
         return 100
     if user_won:
@@ -47,7 +46,6 @@ def minimax(game: Game, b: Board.board, w: str, is_maximizing: bool, players: li
                 b[spot] = w
                 score: int = minimax(game, b, w, is_maximizing, players)
                 b[spot] = orig
-                print(spot, score)
 
                 if score > best_score:
                     best_score = score

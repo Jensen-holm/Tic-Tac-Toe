@@ -8,13 +8,14 @@ from mods.obs import Board, User, Player, CPU, Game
 from mods.gfuncs import someone_won, is_available, check_draw
 
 
-def cpu_move(g: Game, w: str, players: list[Player]) -> str:
+def cpu_move(g: Game, words: list[str], players: list[Player]) -> str:
     best_score: int = -1000
-    best_move: str = ""
+    best_move = 0
     b_copy: dict[str, str] = g.get_board().copy()
 
     for spot in b_copy:
         if is_available(b_copy, spot):
+            w: str = random.choice(words)
             orig = b_copy[spot]
             b_copy[spot] = w
             score: int = minimax(game=g, b=b_copy, w=w, is_maximizing=False, players=players)
@@ -55,7 +56,7 @@ def minimax(game: Game, b: Board.board, w: str, is_maximizing: bool, players: li
         if is_available(b, spot):
             orig = b[spot]
             b[spot] = w
-            score: int = minimax(game, b, w, True, players, depth=depth + 1)
+            score: int = minimax(game, b, w, True, players)
             b[spot] = orig
 
             if score < best_score:

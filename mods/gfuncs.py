@@ -27,7 +27,7 @@ def get_word(g) -> str:
 # print the words available
 
 # # place the word on the board
-def place_word(index: int, g, w: str) -> None:
+def place_word(index, g, w: str) -> None:
     try:  # pop will remove it from the game words dict and place it on the board
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")
     except KeyError as e:  # meaning not in this dict, which would not be good b/c get_word function checks for this problem

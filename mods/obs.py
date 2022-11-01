@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from mods.words import generate_words
 from mods.gfuncs import check_draw, someone_won
 
@@ -30,7 +30,7 @@ class Player:
     draws: int = 0
     losses: int = 0
     streak: int = 0
-    letters = []
+    letters: list[str] = field(default_factory=lambda: [])
 
     def claim_letter(self, letter: str) -> None:
         self.letters.append(letter)

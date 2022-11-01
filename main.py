@@ -39,18 +39,17 @@ def main() -> None:
         else: # if it's the bots turn
             # random available word
             if game.tot_moves == 1:
-                available_words: list[str] = [word for word in game.get_words() if
-                                              word[1] not in game.other_player().get_letters()]
+                available_words: list[str] = [word for word in game.get_words() if word[1] not in game.other_player().get_letters()]
                 w: str = random.choice(available_words)
                 game.player_turn().claim_letter(w[1])
             else:
-                available_words: list[str] = [word for word in game.get_words() if
-                                              word[1] in game.player_turn().get_letters()]
+                available_words: list[str] = [word for word in game.get_words() if word[1] in game.get_players()[1].get_letters()]
+                print(available_words)
                 w: str = random.choice(available_words)
 
-                # minimax to choose the index          # not sure if this is the correct input for 'player that played last
-                best_move: str = cpu_move(g=game, w=w, players=game.get_players())
-                print(best_move)
+            # minimax to choose the index          # not sure if this is the correct input for 'player that played last
+            best_move = cpu_move(g=game, words=available_words, players=game.get_players())
+            place_word(index=best_move, g=game, w=w)
 
         # increment total moves made
         game.increment_moves()

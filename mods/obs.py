@@ -30,7 +30,7 @@ class Player:
     draws: int = 0
     losses: int = 0
     streak: int = 0
-    letters: list[str] = field(default_factory=lambda: [])
+    letters: list[str] = field(default_factory=lambda: [])  # this line of code saved my life
 
     def claim_letter(self, letter: str) -> None:
         self.letters.append(letter)

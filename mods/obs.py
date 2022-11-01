@@ -70,10 +70,11 @@ class Game:
     def other_player(self):
         return self.players[(self.tot_moves % 2) - 1]
 
+    # checks if the game is over
     def __bool__(self) -> bool:
         p, won = someone_won(self.board.board, self.player_turn())
         draw = check_draw(self.board.board, self.tot_moves, self.player_turn())
-        return False if draw or not won else True
+        return True if draw or won else False
 
     def get_players(self) -> list[Player]:
         return self.players

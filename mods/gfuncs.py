@@ -50,7 +50,6 @@ def did_win(b, i1, i2, i3):
     return False
 
 
-# not sure if this is doing what we want it too
 def check_draw(b, tot_moves, player_that_played_last) -> bool:
     p, won = someone_won(b, player_that_played_last)
     if tot_moves >= 6 and not won:
@@ -58,15 +57,11 @@ def check_draw(b, tot_moves, player_that_played_last) -> bool:
     return False
 
 
-# function to determine if the game is over or not
-# checks one player at a time after their turn
-# we want ot be able to tell who won
 def someone_won(b, p):
-    # need to double-check the indexes maybe
     win_scenarios: set[bool] = {
         # check top row, check middle row, check bottom row, check left col
         did_win(b, 1, 2, 3), did_win(b, 4, 5, 6), did_win(b, 7, 8, 9), did_win(b, 1, 4, 7), did_win(b, 2, 5, 8),
-        did_win(b, 3, 6, 9), did_win(b, 1, 5, 9)
+        did_win(b, 3, 6, 9), did_win(b, 1, 5, 9), did_win(b, 3, 5, 7)
     }
     if any(win_scenarios):
         return p, True

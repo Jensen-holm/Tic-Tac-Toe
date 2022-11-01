@@ -60,7 +60,7 @@ class User(Player):
 
 class Game:
     board: Board = Board()
-    players: list[Player] = [User(), CPU()]
+    players: list[Player] = [User(), CPU()]  # this worries me, but we are only using one game object
     words: dict[str] = generate_words()
     tot_moves: int = 0
 

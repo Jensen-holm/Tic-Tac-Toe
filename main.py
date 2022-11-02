@@ -33,10 +33,12 @@ def game_loop() -> (str, Game):
         clear_output()
 
     if someone_won(game.get_board(), game.current_turn()):
+        print(f"{game.current_turn().get_name()} Wins!\n")
         game.current_turn().increment_wins()
         game.other_player().increment_losses()
         return center_output(""), game
 
+    print("Its a draw, embarrassing.\n")
     game.current_turn().increment_draws()
     game.other_player().increment_draws()
     return center_output(""), game

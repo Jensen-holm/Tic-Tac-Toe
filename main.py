@@ -1,45 +1,53 @@
 """
+Title: CIS 162 Tic-Tac-Toe Project
+Purpose: Practice Python Programming
 Author: Jensen Holm
-Title: Word Tic-Tac-Toe in the terminal
-Purpose: CIS162 Project 2
 Date: 10/13/22
 """
-import random
+
+from game import Game
 import os
-from mods.obs import Game, User, Player
-from mods.gfuncs import get_word, get_index, place_word
-from mods.gfuncs import check_draw, someone_won, is_available
 
 
-# just to keep the output tidy
-def clear_screen() -> None:
+def clear_output() -> None:
     if os.name == "nt":  # windows
         os.system("cls")
-        print("\n")
         return
-    os.system("clear")
-    print("\n")  # linux and mac
+    os.system("clear")  # linux or mac
     return
 
 
-def main() -> str:
+def center_output(string: str) -> str:
+    cols, _ = os.get_terminal_size()
+    return string.center(cols)
+
+
+def game_loop() -> str:
     game: Game = Game()
+
+    print(game.words)
+
     while not game:
-        print(game.board)
+        print(game)
 
-        game.current_player().play_turn(game)
+        game.player_turn()
 
-        # increment total moves made to change player turn
         game.increment_moves()
-        clear_screen()
+        clear_output()
 
-    if check_draw(b=game.get_board(), tot_moves=game.tot_moves, players=game.get_players()):
-        return "Its a draw. Lame."
-    if someone_won(game.get_board(), game.get_players()[0]):
-        return "User Wins!"
-    if someone_won(game.get_board(), game.get_players()[1]):
-        return "CPU Wins!"
+    return center_output("")
+
+
+def play() -> None:
+    while True:
+        print(game_loop())
+
+        keep_playing: str = input("Enter y to keep playing ").strip().lower()
+
+        if keep_playing == "y":
+            continue
+        break
 
 
 if __name__ == "__main__":
-    print(main())
+    play()

@@ -4,7 +4,6 @@ from data.dir import path_to_word_file
 
 
 # special function that I wanted to define this way so that I could remember it
-# for future projects because it could be pretty useful
 def flatten_list_of_dictionaries(dict_lst: list[dict]) -> dict:
     return {k: v for collection in dict_lst for k, v in collection.items()}
 
@@ -23,7 +22,7 @@ def generate_words() -> dict[str, str]:
     random.shuffle(valid_words)
     alphabet: list[str] = list(string.ascii_lowercase)
     word_collections: list = []
-    for i in range(4):
+    for i in range(3):
         w_dict: dict[str, str] = {}
         rand_letter: str = random.choice(alphabet)
         for w in valid_words:

@@ -10,7 +10,7 @@ def get_index() -> int:
 def available_words(game) -> list[str]:
     if not game.tot_moves:
         return game.get_words()
-    return [word for word in game.get_words() if word[1] in game.player_turn().get_letters()]
+    return [word for word in game.get_words() if word[1] in game.current_player().get_letters()]
 
 
 def get_word(g) -> str:

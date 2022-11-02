@@ -5,9 +5,8 @@ Author: Jensen Holm
 Date: 10/13/22
 """
 
-from funcs import someone_won, check_draw
-from players import User, CPU
-from game import Game
+from modules.funcs import someone_won
+from modules.game import Game
 import os
 
 
@@ -52,7 +51,10 @@ def play() -> None:
         if keep_playing == "y":
             continue
         break
-    print(f"Thanks for playing word Tic-Tac-Toe!\n -- Your Stats --\nWins: ")
+    wins = sum([g.get_user().get_wins() for g in games])
+    losses = sum([g.get_user().get_losses() for g in games])
+    draws = sum([g.get_user().get_draws() for g in games])
+    print(f"\nThanks for playing!!\n -- Your Stats --\nWins: {wins}\nLosses: {losses}\nDraws: {draws}")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 import random
 import string
-from data.dir import path_to_word_file
+from modules.data.dir import path_to_word_file
 
 
 # special function that I wanted to define this way so that I could remember it

@@ -1,6 +1,6 @@
 import random
 from dataclasses import dataclass, field
-from funcs import is_available
+from modules.funcs import is_available
 
 
 @dataclass
@@ -21,6 +21,18 @@ class Player:
 
     def get_words(self, game_obj) -> list[str]:
         return [word for word in game_obj.get_words() if word[1] not in game_obj.other_player().get_letters()]
+
+    def get_wins(self):
+        return self.wins
+
+    def get_losses(self):
+        return self.losses
+
+    def get_streak(self):
+        return self.streak
+
+    def get_losing_streak(self):
+        return self.losing_streak
 
     def place_word(self, index, g, w: str) -> None:
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")

@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-from words import generate_words
-from players import Player, User, CPU
-from funcs import check_draw, someone_won
+from modules.words import generate_words
+from modules.players import Player, User, CPU
+from modules.funcs import check_draw, someone_won
 
 
 @dataclass
@@ -20,7 +20,7 @@ class Game:
 
     def __repr__(self) -> str:
         r: str = ""
-        for i in range(1, len(self.board) + 1):
+        for i in range(1, len(self.board) + 1):  # b/c the board indexes starts at 1 not 0
             r += (self.board[i] + " " + "|")
             if not i % 3:
                 r += "\n"

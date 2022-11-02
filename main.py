@@ -30,18 +30,22 @@ def main() -> None:
 
         if isinstance(game.player_turn(), User):
             w: str = get_word(g=game)
+
+            if not game.tot_moves:
+                game.player_turn().claim_letter(w[1])
+
             i: int = get_index()
-            game.player_turn().claim_letter(w[1])
             place_word(index=i, g=game, w=w)
 
         else:  # if it's the bots turn
             if game.tot_moves == 1:
                 available_words: list[str] = [w for w in game.get_words() if
                                               w not in game.other_player().get_words(game)]
+                w: str = random.choice(available_words)
+                game.player_turn().claim_letter(w[1])
             else:
                 available_words: list[str] = game.player_turn().get_words(game)
-            w: str = random.choice(available_words)
-            game.player_turn().claim_letter(w[1])
+                w: str = random.choice(available_words)
 
             # minimax to choose the index
             best_move = cpu_move(g=game, words=available_words, players=game.get_players())
@@ -49,17 +53,14 @@ def main() -> None:
 
         # increment total moves made
         game.increment_moves()
-        clear_screen()
+        # clear_screen()
 
-    if check_draw(b=game.get_board(), tot_moves=game.tot_moves, player_that_played_last=game.get_players()[0]):
+    if check_draw(b=game.get_board(), tot_moves=game.tot_moves, players=game.get_players()):
         print(f"Its a draw. Lame.")
-    cpu_won = someone_won(b=game.get_board(), p=game.get_players()[1])
-    user_won = someone_won(b=game.get_board(), p=game.get_players()[0])
-
-    if user_won:
-        print(f"User Won!!!")
-    if cpu_won:
-        print("CPU Won!!!")
+    if someone_won(game.get_board(), game.get_players()[0]):
+        print("user wins")
+    if someone_won(game.get_board(), game.get_players()[1]):
+        print("cpu wins")
 
 
 if __name__ == "__main__":

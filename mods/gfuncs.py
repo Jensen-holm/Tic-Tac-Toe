@@ -42,9 +42,10 @@ def is_available(b, key: int):
     return False
 
 
-def check_draw(b, tot_moves, player_that_played_last) -> bool:
-    won = someone_won(b, player_that_played_last)
-    if tot_moves >= 6 and not won:
+def check_draw(b, tot_moves, players) -> bool:
+    won = someone_won(b, players[0])
+    won1 = someone_won(b, players[1])
+    if tot_moves >= 6 and not won and not won1:
         return True
     return False
 
@@ -57,8 +58,6 @@ def did_win(b, p_letters, i1, i2, i3):
     return False
 
 
-
-""" no matter the situation, a win scenario seems to be true. """
 def someone_won(b, p) -> bool:
     p_letters: list[str] = p.get_letters()
     win_scenarios: set[bool] = {
@@ -68,6 +67,5 @@ def someone_won(b, p) -> bool:
         did_win(b, p_letters, 3, 6, 9), did_win(b, p_letters, 1, 5, 9), did_win(b, p_letters, 3, 5, 7)
     }
     if any(win_scenarios):
-        print("a win scenario is true")
         return True
     return False

@@ -38,10 +38,6 @@ class Player:
     def get_letters(self) -> list[str]:
         return self.letters
 
-    def set_letter(self, letter) -> None:
-        self.letters.append(letter)
-
-    # only want to check this after the first turn
     def get_words(self, game_obj) -> list[str]:
         return [word for word in game_obj.get_words() if word[1] in self.get_letters()]
 
@@ -60,7 +56,7 @@ class User(Player):
 
 class Game:
     board: Board = Board()
-    players: list[Player] = [User(), CPU()]  # this worries me, but we are only using one game object
+    players: list[Player] = [User(), CPU()]
     words: dict[str] = generate_words()
     tot_moves: int = 0
 
@@ -73,7 +69,7 @@ class Game:
     # checks if the game is over
     def __bool__(self) -> bool:
         won = someone_won(self.board.board, self.player_turn())
-        draw = check_draw(self.board.board, self.tot_moves, self.player_turn())
+        draw = check_draw(self.board.board, self.tot_moves, self.get_players())
         return True if draw or won else False
 
     def get_players(self) -> list[Player]:

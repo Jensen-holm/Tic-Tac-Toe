@@ -1,4 +1,6 @@
+import random
 from dataclasses import dataclass, field
+from funcs import is_available
 
 
 @dataclass
@@ -17,7 +19,7 @@ class Player:
         return self.letters
 
     def get_words(self, game_obj) -> list[str]:
-        return [word for word in game_obj.get_words() if word[1] in self.get_letters()]
+        return [word for word in game_obj.get_words() if word[1] not in game_obj.other_player().get_letters()]
 
     def place_word(self, index, g, w: str) -> None:
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")
@@ -49,6 +51,7 @@ class User(Player):
     def play_turn(self, game) -> None:
         w: str = self.get_word(game)
         i: int = self.get_index()
+        self.claim_letter(w[1])
         self.place_word(i, game, w)
 
 
@@ -57,5 +60,8 @@ class CPU(Player):
     def __init__(self):
         super().__init__(name="CPU")
 
-    def play_turn(self):
-        return
+    def play_turn(self, g):
+        w: str = random.choice(self.get_words(g))
+        i: int = random.choice([k for k in g.get_board() if is_available(g.get_board(), k)])
+        self.claim_letter(w[1])
+        self.place_word(index=i, w=w, g=g)

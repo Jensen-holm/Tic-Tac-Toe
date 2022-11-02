@@ -24,26 +24,20 @@ def center_output(string: str) -> str:
 
 def game_loop() -> str:
     game: Game = Game()
-
     print(game.words)
-
     while not game:
         print(game)
-
+        print(game.current_turn())
         game.player_turn()
-
         game.increment_moves()
         clear_output()
-
     return center_output("")
 
 
 def play() -> None:
     while True:
         print(game_loop())
-
-        keep_playing: str = input("Enter y to keep playing ").strip().lower()
-
+        keep_playing: str = input("Enter y to keep playing (anything else to stop): ").strip().lower()
         if keep_playing == "y":
             continue
         break

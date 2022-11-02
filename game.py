@@ -16,13 +16,11 @@ class Game:
     tot_moves: int = 0
 
     def __bool__(self):
-        return True if someone_won(self.get_board(), self.current_turn()) or \
-                       check_draw(self) else False
+        return True if someone_won(self.get_board(), self.current_turn()) or check_draw(self) else False
 
     def __repr__(self) -> str:
         r: str = ""
-        for i in range(len(self.board)):
-            i += 1  # index of dict starts at one
+        for i in range(1, len(self.board) + 1):
             r += (self.board[i] + " " + "|")
             if not i % 3:
                 r += "\n"

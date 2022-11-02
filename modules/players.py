@@ -28,11 +28,8 @@ class Player:
     def get_losses(self):
         return self.losses
 
-    def get_streak(self):
-        return self.streak
-
-    def get_losing_streak(self):
-        return self.losing_streak
+    def get_draws(self):
+        return self.draws
 
     def place_word(self, index, g, w: str) -> None:
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")
@@ -48,9 +45,6 @@ class Player:
 
     def increment_draws(self):
         self.draws += 1
-
-    def __repr__(self) -> str:
-        return f"Wins: {self.wins}\n Losses: {self.losses}\n Draws: {self.draws}\n Longest Win Streak: {self.streak}"
 
 
 @dataclass

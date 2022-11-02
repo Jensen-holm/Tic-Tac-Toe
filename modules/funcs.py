@@ -4,8 +4,12 @@ def is_available(b, key: int):
     return False
 
 
-def check_draw(game):
-    return
+def check_draw(game) -> False:
+    if game.get_tot_moves() >= 7 and not someone_won(game.get_board(), game.current_turn()):
+        return True
+    if not game.get_user().get_words(game) or not game.get_cpu().get_words(game):
+        return True
+    return False
 
 
 def did_win(b, p_letters, i1, i2, i3):

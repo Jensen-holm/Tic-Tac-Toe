@@ -34,7 +34,7 @@ def game_loop() -> (str, Game):
 
     if someone_won(game.get_board(), game.current_turn()):
         game.current_turn().increment_wins()
-        game.current_turn().increment_losses()
+        game.other_player().increment_losses()
         return center_output(""), game
 
     game.current_turn().increment_draws()
@@ -47,6 +47,7 @@ def play() -> None:
     while True:
         result, game = game_loop()
         games.append(game)
+
         keep_playing: str = input("Enter y to keep playing (anything else to stop): ").strip().lower()
         if keep_playing == "y":
             continue

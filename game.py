@@ -47,3 +47,9 @@ class Game:
 
     def get_words(self) -> list[str]:
         return self.words
+
+    def get_user(self):
+        return self.players[0]
+
+    def get_cpu(self):
+        return self.players[1]

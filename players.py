@@ -10,6 +10,7 @@ class Player:
     losses: int = 0
     draws: int = 0
     streak: int = 0
+    losing_streak: int = 0
     letters: list[str] = field(default_factory=lambda: [])
 
     def claim_letter(self, letter: str) -> None:
@@ -23,6 +24,21 @@ class Player:
 
     def place_word(self, index, g, w: str) -> None:
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")
+
+    def increment_wins(self):
+        self.wins += 1
+        self.streak += 1
+
+    def increment_losses(self):
+        self.losses += 1
+        self.streak = 0
+        self.losing_streak += 1
+
+    def increment_draws(self):
+        self.draws += 1
+
+    def __repr__(self) -> str:
+        return f"Wins: {self.wins}\n Losses: {self.losses}\n Draws: {self.draws}\n Longest Win Streak: {self.streak}"
 
 
 @dataclass

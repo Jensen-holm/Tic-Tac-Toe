@@ -26,6 +26,13 @@ class Game:
                 r += "\n"
         return r
 
+    def reset_board(self):
+        self.board: dict[int] = field(default_factory=lambda: {
+            1: "1".center(7), 2: "2".center(7), 3: "3".center(7),
+            4: "4".center(7), 5: "5".center(7), 6: "6".center(7),
+            7: "7".center(7), 8: "8".center(7), 9: "9".center(7)
+        })
+
     def get_board(self):
         return self.board
 

@@ -13,43 +13,44 @@ import os
 def clear_output() -> None:
     if os.name == "nt":  # windows
         os.system("cls")
+        print("\n")
         return
     os.system("clear")  # linux or mac
+    print("\n")
     return
 
 
-def center_output(string: str) -> str:
+def center_multiline_output(string: str) -> None:
     cols, _ = os.get_terminal_size()
-    return string.center(cols)
+    for thing in string.split("\n"):
+        print(thing.center(cols))
 
 
 def game_loop() -> (str, Game):
-    game: Game = Game()
-
+    game = Game()
+    clear_output()
     while not game:
-        print(game)
+        center_multiline_output(str(game))
         game.player_turn()
         game.increment_moves()
         clear_output()
 
     if someone_won(game.get_board(), game.current_turn()):
-        print(f"{game.current_turn().get_name()} Wins!\n")
+        center_multiline_output(f"{game.current_turn().get_name()} Wins!\n")
         game.current_turn().increment_wins()
         game.other_player().increment_losses()
-        return center_output(""), game
+        return game
 
-    print("Its a draw, embarrassing.\n")
+    center_multiline_output("Its a draw, embarrassing.\n")
     game.current_turn().increment_draws()
     game.other_player().increment_draws()
-    return center_output(""), game
+    return game
 
 
 def play() -> None:
     games: list[Game] = []
     while True:
-        result, game = game_loop()
-        games.append(game)
-
+        games.append(game_loop())
         keep_playing: str = input("Enter y to keep playing (anything else to stop): ").strip().lower()
         if keep_playing == "y":
             continue
@@ -57,7 +58,13 @@ def play() -> None:
     wins = sum([g.get_user().get_wins() for g in games])
     losses = sum([g.get_user().get_losses() for g in games])
     draws = sum([g.get_user().get_draws() for g in games])
-    print(f"\nThanks for playing!!\n -- Your Stats --\nWins: {wins}\nLosses: {losses}\nDraws: {draws}")
+    center_multiline_output(
+        f"\nThanks for playing!!\n\n"
+        f" -- Your Stats --\n"
+        f"Wins: {wins}\n"
+        f"Losses: {losses}\n"
+        f"Draws: {draws}\n"
+    )
 
 
 if __name__ == "__main__":

@@ -13,6 +13,9 @@ class Player:
     losing_streak: int = 0
     letters: list[str] = field(default_factory=lambda: [])
 
+    def get_name(self):
+        return self.name
+
     def claim_letter(self, letter: str) -> None:
         self.letters.append(letter)
 

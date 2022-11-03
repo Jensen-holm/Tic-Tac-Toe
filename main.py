@@ -55,9 +55,10 @@ def play() -> None:
         if keep_playing == "y":
             continue
         break
-    wins = sum([g.get_user().get_wins() for g in games])
-    losses = sum([g.get_user().get_losses() for g in games])
-    draws = sum([g.get_user().get_draws() for g in games])
+    wins, losses, draws = sum([g.get_user().get_wins() for g in games]), \
+                          sum([g.get_user().get_losses() for g in games]), \
+                          sum([g.get_user().get_draws() for g in games])
+
     center_multiline_output(
         f"\nThanks for playing!!\n\n"
         f" -- Your Stats --\n"

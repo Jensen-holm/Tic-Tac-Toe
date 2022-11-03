@@ -9,11 +9,9 @@ class Player:
     wins: int = 0
     losses: int = 0
     draws: int = 0
-    streak: int = 0
-    losing_streak: int = 0
     letters: list[str] = field(default_factory=lambda: [])
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self.name
 
     def claim_letter(self, letter: str) -> None:
@@ -25,28 +23,25 @@ class Player:
     def get_words(self, game_obj) -> list[str]:
         return [word for word in game_obj.get_words() if word[1] not in game_obj.other_player().get_letters()]
 
-    def get_wins(self):
+    def get_wins(self) -> int:
         return self.wins
 
-    def get_losses(self):
+    def get_losses(self) -> int:
         return self.losses
 
-    def get_draws(self):
+    def get_draws(self) -> int:
         return self.draws
 
     def place_word(self, index, g, w: str) -> None:
         g.get_board()[index] = g.get_words().pop(w, None).center(7, " ")
 
-    def increment_wins(self):
+    def increment_wins(self) -> None:
         self.wins += 1
-        self.streak += 1
 
-    def increment_losses(self):
+    def increment_losses(self) -> None:
         self.losses += 1
-        self.streak = 0
-        self.losing_streak += 1
 
-    def increment_draws(self):
+    def increment_draws(self) -> None:
         self.draws += 1
 
 
@@ -71,7 +66,9 @@ class User(Player):
             inp = input("\nEnter board index (1-9): ").strip()
             if inp.isnumeric():
                 return int(inp)
-            print(f"\nInvalid input: '{inp}' is not a valid board index. Please try again.")
+            print(
+                f"\nInvalid input: '{inp}' is not a valid board index. Please try again."
+            )
 
     def play_turn(self, game) -> None:
         w: str = self.get_word(game)
@@ -82,11 +79,12 @@ class User(Player):
 
 @dataclass
 class CPU(Player):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(name="CPU")
 
-    def play_turn(self, g):
+    def play_turn(self, g) -> None:
         w: str = random.choice(self.get_words(g))
-        i: int = random.choice([k for k in g.get_board() if is_available(g.get_board(), k)])
+        i: int = random.choice(
+            [k for k in g.get_board() if is_available(g.get_board(), k)])
         self.claim_letter(w[1])
         self.place_word(index=i, w=w, g=g)

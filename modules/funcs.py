@@ -1,10 +1,10 @@
-def is_available(b, key: int):
+def is_available(b, key: int) -> bool:
     if b[key].strip().isnumeric():  # meaning empty space
         return True
     return False
 
 
-def check_draw(game) -> False:
+def check_draw(game) -> bool:
     if game.get_tot_moves() >= 7 and not someone_won(game.get_board(), game.current_turn()):
         return True
     if not game.get_user().get_words(game) or not game.get_cpu().get_words(game):
@@ -12,7 +12,7 @@ def check_draw(game) -> False:
     return False
 
 
-def did_win(b, p_letters, i1, i2, i3):
+def did_win(b, p_letters, i1, i2, i3) -> bool:
     if any([is_available(b, i1), is_available(b, i2), is_available(b, i3)]):
         return False
     if b[i1].strip()[1] in p_letters and b[i2].strip()[1] in p_letters and b[i3].strip()[1] in p_letters:

@@ -6,5 +6,4 @@ import os
 path_to_word_file: str = os.path.dirname(__file__) + "/Words.txt"
 
 if __name__ == "__main__":
-    # different across computers
     print(path_to_word_file)

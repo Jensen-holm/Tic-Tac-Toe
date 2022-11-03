@@ -2,7 +2,7 @@
 Title: CIS 162 Tic-Tac-Toe Project
 Purpose: Practice Python Programming
 Author: Jensen Holm
-Date: 10/13/22
+Date: 11/02/22
 """
 
 from modules.funcs import someone_won
@@ -26,8 +26,8 @@ def center_multiline_output(string: str) -> None:
         print(thing.center(cols))
 
 
-def game_loop() -> (str, Game):
-    game = Game()
+def game_loop() -> Game:
+    game: Game = Game()
     clear_output()
     while not game:
         center_multiline_output(str(game))
@@ -51,13 +51,15 @@ def play() -> None:
     games: list[Game] = []
     while True:
         games.append(game_loop())
-        keep_playing: str = input("Enter y to keep playing (anything else to stop): ").strip().lower()
+        keep_playing: str = input(
+            "Enter y to keep playing (anything else to stop): ").strip().lower()
         if keep_playing == "y":
             continue
         break
+
     wins, losses, draws = sum([g.get_user().get_wins() for g in games]), \
-                          sum([g.get_user().get_losses() for g in games]), \
-                          sum([g.get_user().get_draws() for g in games])
+        sum([g.get_user().get_losses() for g in games]), \
+        sum([g.get_user().get_draws() for g in games])
 
     center_multiline_output(
         f"\nThanks for playing!!\n\n"

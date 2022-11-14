@@ -20,7 +20,7 @@ class Game:
 
     def __repr__(self) -> str:
         r: str = ""
-        for i in range(1, len(self.board) + 1):  # b/c the board indexes starts at 1 not 0
+        for i in range(1, len(self.board) + 1):  
             r += (self.board[i] + " " + "|")
             if not i % 3:
                 r += "\n"
